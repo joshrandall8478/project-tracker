@@ -1,4 +1,5 @@
 using api.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,9 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 
-builder.Services.AddDBContext<ApplicationDBContext>(options =>
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
-   options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection")); 
+   options.UseMySql(
+    builder.Configuration.GetConnectionString("DefaultConnection"),
+    ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+   ); 
 });
 
 var app = builder.Build();

@@ -1,5 +1,30 @@
 services:
-  db:
-    image: "mysql:9.5.0"
+  mysql:
+    image: mysql:8.0
+    container_name: project-tracker-mysql
     environment:
-    
+      MYSQL_ROOT_PASSWORD: dev_password
+      MYSQL_DATABASE: ProjectTrackerDB
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # networks:
+      # - project-tracker-net
+
+  # api:
+  #   build:
+  #     context: ./api
+  #     dockerfile: Dockerfile
+  #   container_name: project-tracker-api
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #   ports:
+  #     - "5000:8080"
+  #   depends_on:
+  #     - mysql
+  #   networks:
+  #     - project-tracker-net
+
+volumes:
+  mysql_data:
