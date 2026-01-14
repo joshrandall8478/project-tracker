@@ -1,0 +1,24 @@
+# .NET
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+.vs/
+
+# Node
+node_modules/
+dist/
+.env.local
+.env.*.local
+
+# Build outputs
+build/
+out/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
