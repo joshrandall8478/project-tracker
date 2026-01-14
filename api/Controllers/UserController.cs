@@ -5,6 +5,7 @@ using Microsoft.VisualBasic;
 
 namespace api.Controllers
 {
+    [ApiController]
     [Route("api/users")]
     public class UserController : ControllerBase
     {
@@ -13,6 +14,7 @@ namespace api.Controllers
         {
             _context = context;
         }
+        // Get actions
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -29,6 +31,14 @@ namespace api.Controllers
                 return NotFound();
             }
             return Ok(user);
+        }
+        // Post actions
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] User user)
+        {
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetById), new {id = user.Id}, user);
         }
     }
 }

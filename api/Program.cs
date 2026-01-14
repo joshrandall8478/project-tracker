@@ -7,8 +7,24 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 
-builder.Services.AddOpenApi();
 
+
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+
+
+// Allow vite within CORS
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("AllowVite",
+//         policy =>
+//         {
+//             policy.WithOrigins("http://localhost:5173")
+//                   .AllowAnyHeader()
+//                   .AllowAnyMethod();
+//         });
+// });
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
    options.UseMySql(
@@ -25,8 +41,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
+// app.UseCors("AllowVite");
 
 
 app.Run();
