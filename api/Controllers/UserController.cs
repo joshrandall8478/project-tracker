@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Components;
+// using Microsoft.AspNetCore.Components;
 
-namespace api.Controllers
-{
-    [Route("api/users")]
-}
+// namespace api.Controllers
+// {
+//     [Route("api/users")]
+// }
