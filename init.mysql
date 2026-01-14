@@ -1,0 +1,27 @@
+-- Initialize tables in the MySQL docker container
+
+use ProjectTrackerDB;
+
+CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(30) NOT NULL,
+    password_hash VARCHAR(255),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE projects (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id),
+    FOREING KEY (user_id) references users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE tasks (
+    id INT NOT NULL AUTO_INCREMENT,
+    project_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    status VARCHAR(50) DEFAULT 'Not Started',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+)
