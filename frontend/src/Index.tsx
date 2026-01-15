@@ -4,9 +4,8 @@ function Index() {
     return (
     <>
       <div>
-        <h1>Project Tracker</h1>
-        <button>Sign In</button>
-        <button>Sign Up</button>
+        <a>Sign In</a>
+        <a href="/signup">Sign Up</a>
       </div>
     </>
 )
