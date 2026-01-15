@@ -2,3 +2,4 @@ conda.yml
 /db
 *.db
 __pycache__
+*venv
