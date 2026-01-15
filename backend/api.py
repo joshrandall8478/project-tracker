@@ -89,7 +89,7 @@ def create_user():
             
 
 # Authenticate user
-@app.route('/api/login', methods=['GET'])
+@app.route('/api/login', methods=['POST'])
 def authenticate():
     # Grab data from post body
     data = request.get_json()
@@ -242,3 +242,10 @@ def get_tasks(project_id):
     for task in tasks:
         result.append({"id": task[0], "project_id": task[1], "title": task[2], "status": task[3], "created_at": task[4]})
     return jsonify(result)
+
+# Get logged in username
+@app.route('/api/current_user', methods=['GET'])
+@jwt_required()
+def current_user():
+    username = get_jwt_identity()
+    return jsonify(username=username), 200
