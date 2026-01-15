@@ -167,7 +167,7 @@ def create_task():
         if field not in data:
             return jsonify({'error': f'Missing field: {field}'}), 400
 
-    # Attempt to add the user 
+    # Attempt to add the task 
     try:
         query_db("INSERT INTO tasks (project_id, title) values (?, ?)", (data['project_id'], data['title']))
         return jsonify({'message': 'Task Created'}), 201
@@ -189,7 +189,7 @@ def update_task():
         if field not in data:
             return jsonify({'error': f'Missing field: {field}'}), 400
 
-    # Attempt to add the user 
+    # Attempt to update the task
     try:
         query_db("UPDATE tasks SET status = ? WHERE id = ?", (data['status'], data['id']))
         return jsonify({'message': 'Task Updated'}), 200
@@ -210,7 +210,6 @@ def get_user(username):
 
     projects = []
     for project in query_db('select * from projects where user_id = ?', user_id):
-        # print(user)
         projects.append({"id": project[0], "user_id": project[1], "name": project[2], "description": project[3]})
     return jsonify(projects)
 
@@ -224,6 +223,5 @@ def get_user(project_id):
     
     result = []
     for task in tasks:
-        # print(user)
         result.append({"id": task[0], "project_id": task[1], "title": task[2], "status": task[3], "created_at": task[4]})
     return jsonify(result)
