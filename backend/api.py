@@ -1,8 +1,12 @@
 from flask import Flask, jsonify, request
+import sqlite3 as sql
 
 app = Flask(__name__)
+DATABASE = 'db.db'
 
 
+
+# dummy users
 users = [
     {'id':1, 'username': 'test'}
 ]
