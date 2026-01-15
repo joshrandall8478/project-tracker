@@ -1,3 +1,4 @@
 conda.yml
 /db
+*.db
 __pycache__

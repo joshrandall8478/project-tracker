@@ -9,6 +9,6 @@ COPY . .
 
 EXPOSE 5000
 
-RUN python3 init_db.py
+RUN mkdir db
 
-CMD ["flask", "--app", "api", "run", "--host", "0.0.0.0"]
+CMD ["./start.sh"]
