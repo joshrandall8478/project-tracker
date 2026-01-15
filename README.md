@@ -45,7 +45,8 @@ To get the application running outside of docker, clone the repository and insta
 
 > [!IMPORTANT]
 > Make sure to run the following commands in the `backend` directory
-> A conda environment has been provided for your convenience. Conda provides a virutal environment to use in python without the need to create a `.venv`, and can be entirely based off of a .yml file. To install the conda environment, run this in the backend directory:
+
+A conda environment has been provided for your convenience. Conda provides a virutal environment to use in python without the need to create a `.venv`, and can be entirely based off of a .yml file. To install the conda environment, run this in the backend directory:
 
 ```bash
 conda env create -f conda.yml
@@ -76,6 +77,7 @@ And finally, the API deployment commands.
 Initialize the sqlite3 database first if it doesn't exist:
 
 ```bash
+mkdir db
 python3 init_db.py
 ```
 

@@ -72,7 +72,7 @@ function SignUp() {
                 value={username}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter Username"
-              />
+              /><br></br>
               <label htmlFor="password" className="auth__label">
                 <strong>Password</strong>
               </label>
@@ -83,7 +83,7 @@ function SignUp() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter Password"
                 className="auth__form-control"
-              />
+              /><br></br>
               <button type="submit">Sign Up</button>
             </div>
         </form>

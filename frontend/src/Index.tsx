@@ -41,10 +41,10 @@ function Index() {
     return (
     <>
       <div>
-        <ul>
+        
           {!loggedIn && (<div>
-          <li><a href="/login">Sign In</a></li>
-          <li><a href="/signup">Sign Up</a></li>
+          <a href="/login">Sign In</a><br></br>
+          <a href="/signup">Sign Up</a>
           </div>
           )}
           {loggedIn && (<div>
@@ -53,7 +53,7 @@ function Index() {
           </div>
           )
           }
-        </ul>
+        
       </div>
     </>
 )
