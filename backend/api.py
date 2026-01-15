@@ -54,7 +54,8 @@ def get_user(username):
     if user is None:
         return jsonify({'error': 'User not found'}), 404
     
-    return jsonify(user)
+    data = {"id": user[0], "username": user[1], "password_hash": user[2]}
+    return jsonify(data)
 
 # Create user
 @app.route('/api/users', methods=['POST'])
@@ -84,4 +85,39 @@ def create_user():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
             
+
+# Authenticate user
+@app.route('/api/login', methods=['GET'])
+def authenticate():
+    # Grab data from post body
+    data = request.get_json()
+
+    if not data:
+        return jsonify({'error': 'No data provided'}), 400
+    
+    # Required fields
+    required = ['username', 'password']
+    for field in required:
+        if field not in data:
+            return jsonify({'error': f'Missing field: {field}'}), 400
+        
+    # Hash the password with bcrypt
+    password = data['password'].encode("utf-8")
+    password_hash = bcrypt.hashpw(password, salt)
+
+    username = data['username']
+
+
+    # Get user
+    user = query_db('SELECT * FROM users WHERE username = ?', [username], one=True)
+    
+    if user is None:
+        return jsonify({'error': 'User not found'}), 404
+    
+    queryResult = {"id": user[0], "username": user[1], "password_hash": user[2]}
+
+    if queryResult["password_hash"] is password_hash:
+        return jsonify({'message': 'Successfully Authenticated'}), 202
+    else:
+        return jsonify({'message': 'Authorization Failed'}), 401
 
