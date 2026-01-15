@@ -12,7 +12,7 @@ jwt = JWTManager(app)
 salt = bcrypt.gensalt(rounds=10)
 
 # Connect to database
-DATABASE = 'db.db'
+DATABASE = 'db/db.db'
 
 # Reference for query_db and get_db: https://flask.palletsprojects.com/en/stable/patterns/sqlite3/
 def get_db():
