@@ -1,11 +1,13 @@
 from flask import Flask, jsonify, request, g
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
 import bcrypt
 import sqlite3
 
 app = Flask(__name__)
 CORS(app)
-
+app.config["JWT_SECRET_KEY"] = "super-secret-unguessable-key" # Change this!
+jwt = JWTManager(app)
 # Set bcrypt salt to 10
 salt = bcrypt.gensalt(rounds=10)
 
@@ -117,17 +119,17 @@ def authenticate():
     queryResult = {"id": user[0], "username": user[1], "password_hash": user[2]}
     password_hash = queryResult['password_hash']
 
-    # print(queryResult["password_hash"])
-    # print(password_hash)
-    print(password)
-    print(password_hash)
+
     if bcrypt.checkpw(password, password_hash.encode('utf-8')):
-        return jsonify({'message': 'Successfully Authenticated'}), 202
+        # This means authenticaiton is successful. Create and send the access token
+        access_token = create_access_token(identity=username)
+        return jsonify({'message': 'Successfully Authenticated', 'token': access_token}), 200
     else:
         return jsonify({'message': 'Authorization Failed'}), 401
 
 # Create project
 @app.route('/api/projects', methods=['POST'])
+@jwt_required()
 def create_project():
     # Grab data from post body
     data = request.get_json()
@@ -136,7 +138,7 @@ def create_project():
         return jsonify({'error': 'No data provided'}), 400
     
     # Required fields
-    required = ['user_id', 'name']
+    required = ['name']
     for field in required:
         if field not in data:
             return jsonify({'error': f'Missing field: {field}'}), 400
@@ -145,9 +147,24 @@ def create_project():
     if data['description']:
         description = data['description']
 
+    # Get user information
+    username = get_jwt_identity()
+
+
+    user = query_db('SELECT * FROM users WHERE username = ?', [username], one=True)
+    
+    if user is None:
+        return jsonify({'error': 'Token not found'}), 404
+    
+    userData = {"id": user[0], "username": user[1], "password_hash": user[2]}
+
+    user_id = userData["id"]
+
+
+
     # Attempt to add the user 
     try:
-        query_db("INSERT INTO projects (user_id, name, description) values (?, ?, ?)", (data['user_id'], data['name'], description))
+        query_db("INSERT INTO projects (user_id, name, description) values (?, ?, ?)", (user_id, data['name'], description))
         return jsonify({'message': 'Project Created'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -198,7 +215,7 @@ def update_task():
 
 # Get all projects based on username
 @app.route('/api/projects/<username>', methods=['GET'])
-def get_user(username):
+def get_projects(username):
     user = query_db('SELECT * FROM users WHERE username = ?', [username], one=True)
     
     if user is None:
@@ -215,7 +232,7 @@ def get_user(username):
 
 # Get all tasks based on project ID
 @app.route('/api/tasks/<project_id>', methods=['GET'])
-def get_user(project_id):
+def get_tasks(project_id):
     tasks = query_db('SELECT * FROM tasks WHERE project_id = ?', [project_id], one=True)
     
     if tasks is None:
