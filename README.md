@@ -4,10 +4,7 @@ Simple Task &amp; Project Tracker
 
 ---
 
-The Goal of
-
-> [!NOTE]
-> Nothing in this project was AI generated
+The goal of
 
 ## Dependencies
 
