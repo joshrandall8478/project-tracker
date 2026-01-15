@@ -2,10 +2,6 @@
 
 Simple Task &amp; Project Tracker
 
----
-
-The goal of
-
 ## Dependencies
 
 - Python 3.12
