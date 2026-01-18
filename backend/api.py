@@ -223,7 +223,7 @@ def get_projects(username):
     
     data = {"id": user[0], "username": user[1], "password_hash": user[2]}
 
-    user_id = data[id]
+    user_id = data["id"]
 
     projects = []
     for project in query_db('select * from projects where user_id = ?', user_id):
