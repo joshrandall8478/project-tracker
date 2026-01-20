@@ -87,8 +87,10 @@ flask --app api run --host 0.0.0.0
 
 > [!IMPORTANT]
 > Make sure to run the following commands in the `frontend` directory
-> Make sure you have nodejs and npm installed. Install the required dependencies, then run the vite development server.
+> Make sure you have nodejs and npm installed.
 
+
+Install the required dependencies, then run the vite development server.
 ```bash
 npm i
 npm run dev
